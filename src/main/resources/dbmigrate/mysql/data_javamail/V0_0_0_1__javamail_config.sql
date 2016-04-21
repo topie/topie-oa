@@ -1,0 +1,4 @@
+
+
+INSERT INTO JAVAMAIL_CONFIG(ID,USERNAME,PASSWORD,RECEIVE_TYPE,RECEIVE_HOST,RECEIVE_PORT,RECEIVE_SECURE,SEND_TYPE,SEND_HOST,SEND_PORT,SEND_SECURE,PRIORITY,USER_ID) VALUES(1,'lingo.topie.com','~lemon.topie','pop3','mail.topie.com','995','ssl-all','smtp','mail.topie.com','465','ssl-all',1,1);
+
