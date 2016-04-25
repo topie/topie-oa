@@ -59,7 +59,7 @@ $(function() {
 		  <form name="dict-typeForm" method="post" action="dict-type-list.do" class="form-inline">
 		    <label for="dict-type_name"><spring:message code='dict-type.dict-type.list.search.name' text='名称'/>:</label>
 		    <input type="text" id="dict-type_name" name="filter_LIKES_name" value="${param.filter_LIKES_name}">
-			<button class="btn btn-small a-search" onclick="document.dict-typeForm.submit()">查询</button>&nbsp;
+			<button class="btn btn-small btn-default a-search" onclick="document.dict-typeForm.submit()">查询</button>&nbsp;
 		  </form>
 
 		</div>
@@ -68,7 +68,7 @@ $(function() {
 	  <article class="m-blank">
 	    <div class="pull-left">
 		  <region:region-permission permission="dict-type:create">
-		  <button class="btn btn-small a-insert" onclick="location.href='dict-schema-input.do?typeId=${param.typeId}'">新建</button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='dict-schema-input.do?typeId=${param.typeId}'">新建</button>
 		  </region:region-permission>
 		  <region:region-permission permission="dict-type:delete">
 		  <button class="btn btn-small a-remove" onclick="table.removeAll()">删除</button>

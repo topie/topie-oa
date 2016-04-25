@@ -62,7 +62,7 @@ $(function() {
 			<label>${item.label}</label>:
 			<input type="text" name="${item.name}">
 		    </c:forEach>
-			<button class="btn btn-small" onclick="document.userForm.submit()">查询</button>
+			<button class="btn btn-small btn-default" onclick="document.userForm.submit()">查询</button>
 		  </form>
 
 		</div>

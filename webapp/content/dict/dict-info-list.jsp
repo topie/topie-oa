@@ -68,7 +68,7 @@ $(function() {
 	  <article class="m-blank">
 	    <div class="pull-left">
 		  <region:region-permission permission="dict-info:create">
-		  <button class="btn btn-small a-insert" onclick="location.href='dict-info-input.do?typeId=${param.typeId}'">新建</button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='dict-info-input.do?typeId=${param.typeId}'">新建</button>
 		  </region:region-permission>
 		  <region:region-permission permission="dict-info:delete">
 		  <button class="btn btn-small a-remove" onclick="table.removeAll()">删除</button>

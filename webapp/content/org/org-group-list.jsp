@@ -75,7 +75,7 @@ $(function() {
 	  <article class="m-blank">
 	    <div class="pull-left">
 		  <region:region-permission permission="org:create">
-		  <button class="btn btn-small a-insert" onclick="location.href='org-group-input.do'">新建</button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='org-group-input.do'">新建</button>
 		  </region:region-permission>
 		  <region:region-permission permission="org:delete">
 		  <button class="btn btn-small a-remove" onclick="table.removeAll()">删除</button>

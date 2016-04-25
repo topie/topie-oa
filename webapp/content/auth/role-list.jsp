@@ -59,7 +59,7 @@ $(function() {
 		  <form name="roleForm" method="post" action="role-list.do" class="form-inline">
 		    <label for="role_name"><spring:message code='auth.role.list.search.name' text='名称'/>:</label>
 		    <input type="text" id="role_name" name="filter_LIKES_name" value="${param.filter_LIKES_name}">
-			<button class="btn btn-small" onclick="document.permForm.submit()">查询</button>
+			<button class="btn btn-small btn-default" onclick="document.permForm.submit()">查询</button>
 		  </form>
 
 		</div>
@@ -68,7 +68,7 @@ $(function() {
 	  <article class="m-blank">
 	    <div class="pull-left">
 		  <region:region-permission permission="role:create">
-		  <button class="btn btn-small a-insert" onclick="location.href='role-input.do'"><spring:message code="core.list.create" text="新建"/></button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='role-input.do'"><spring:message code="core.list.create" text="新建"/></button>
 		  </region:region-permission>
 		  <region:region-permission permission="role:delete">
 		  <button class="btn btn-small a-remove" onclick="table.removeAll()"><spring:message code="core.list.delete" text="删除"/></button>

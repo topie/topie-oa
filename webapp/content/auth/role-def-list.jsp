@@ -68,7 +68,7 @@ $(function() {
 	  <article class="m-blank">
 	    <div class="pull-left">
 		  <region:region-permission permission="roleDef:create">
-		  <button class="btn btn-small a-insert" onclick="location.href='role-def-input.do'"><spring:message code="core.list.create" text="新建"/></button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='role-def-input.do'"><spring:message code="core.list.create" text="新建"/></button>
 		  </region:region-permission>
 		  <region:region-permission permission="roleDef:delete">
 		  <button class="btn btn-small a-remove" onclick="table.removeAll()"><spring:message code="core.list.delete" text="删除"/></button>

@@ -59,7 +59,7 @@ $(function() {
 		  <form name="doc-infoForm" method="post" action="doc-info-list.do" class="form-inline">
 		    <label for="doc-info_name"><spring:message code='doc-info.doc-info.list.search.name' text='名称'/>:</label>
 		    <input type="text" id="doc-info_name" name="filter_LIKES_name" value="${param.filter_LIKES_name}">
-			<button class="btn btn-small a-search" onclick="document.doc-infoForm.submit()">查询</button>&nbsp;
+			<button class="btn btn-small btn-default a-search" onclick="document.doc-infoForm.submit()">查询</button>&nbsp;
 		  </form>
 
 		</div>
@@ -68,7 +68,7 @@ $(function() {
 	  <article class="m-blank">
 	    <div class="pull-left">
 		  <region:region-permission permission="doc-info:create">
-		  <button class="btn btn-small a-insert" onclick="location.href='doc-info-input.do'">新建</button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='doc-info-input.do'">新建</button>
 		  </region:region-permission>
 		  <region:region-permission permission="doc-info:delete">
 		  <button class="btn btn-small a-remove" onclick="table.removeAll()">删除</button>

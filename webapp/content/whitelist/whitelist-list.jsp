@@ -59,7 +59,7 @@ $(function() {
 		  <form name="demoForm" method="post" action="whitelist-list.do" class="form-inline">
 		    <label for="demo_name"><spring:message code='demo.demo.list.search.name' text='名称'/>:</label>
 		    <input type="text" id="demo_name" name="filter_LIKES_name" value="${param.filter_LIKES_name}">
-			<button class="btn btn-small a-search" onclick="document.demoForm.submit()">查询</button>&nbsp;
+			<button class="btn btn-small a-search btn-default" onclick="document.demoForm.submit()">查询</button>&nbsp;
 		  </form>
 
 		</div>

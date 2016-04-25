@@ -59,7 +59,7 @@ $(function() {
 		  <form name="tenant-infoForm" method="post" action="tenant-info-list.do" class="form-inline">
 		    <label for="tenant-info_name"><spring:message code='tenant-info.tenant-info.list.search.name' text='名称'/>:</label>
 		    <input type="text" id="tenant-info_name" name="filter_LIKES_name" value="${param.filter_LIKES_name}">
-			<button class="btn btn-small a-search" onclick="document.tenant-infoForm.submit()">查询</button>&nbsp;
+			<button class="btn btn-small btn-default a-search" onclick="document.tenant-infoForm.submit()">查询</button>&nbsp;
 		  </form>
 
 		</div>
@@ -67,10 +67,10 @@ $(function() {
 
 	  <article class="m-blank">
 	    <div class="pull-left">
-		  <button class="btn btn-small a-insert" onclick="location.href='tenant-info-input.do'">新建</button>
-		  <button class="btn btn-small a-remove" onclick="table.removeAll()">删除</button>
-		  <button class="btn btn-small a-export" onclick="table.exportExcel()">导出</button>
-		  <button class="btn btn-small a-insert" onclick="location.href='tenant-info-init-view.do'">创建并初始化租户</button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='tenant-info-input.do'">新建</button>
+		  <button class="btn btn-small a-remove btn-default" onclick="table.removeAll()">删除</button>
+		  <button class="btn btn-small a-export btn-default" onclick="table.exportExcel()">导出</button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='tenant-info-init-view.do'">创建并初始化租户</button>
 		</div>
 
 		<div class="pull-right">

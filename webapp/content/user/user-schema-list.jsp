@@ -59,7 +59,7 @@ $(function() {
 		  <form name="userSchemaForm" method="post" action="user-schema-list.do" class="form-inline">
 		    <label for="userSchema_name"><spring:message code="auth.userSchema.list.search.name" text="名称"/>:</label>
 		    <input type="text" id="userSchema_name" name="filter_LIKES_name" value="${param.filter_LIKES_name}">
-			<button class="btn btn-small" onclick="document.userSchemaForm.submit()">查询</button>
+			<button class="btn btn-small btn-default" onclick="document.userSchemaForm.submit()">查询</button>
 		  </form>
 
 		</div>

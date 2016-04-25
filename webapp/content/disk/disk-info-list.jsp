@@ -25,24 +25,15 @@
     <table id="tablereimburserecord1" class="table table-hover table-bordered">
       <thead>
         <tr class="active">
-          <th class="col-md-1 text-left"></th>
           <th class="col-md-7 text-left">文件名</th>
           <th class="col-md-2 text-left">大小</th>
           <th class="col-md-2 text-left">修改时间</th>
+          <th class="col-md-1 text-left">操作</th>
         </tr>
       </thead>
       <tbody id="tbodyFileInfo">
 	    <c:forEach items="${diskInfos}" var="item">
         <tr>
-		  <td class="text-center">
-			<c:if test="${item.type != 'dir'}">
-            <a href="disk-info-download.do?id=${item.id}"><i class=" glyphicon glyphicon-download-alt"></i></a>
-			</c:if>
-			<a href="javascript:void(0);renameFile(${item.id}, '${item.name}');"><i class="glyphicon glyphicon-pencil"></i></a>
-			<a href="javascript:void(0);moveFile(${item.id})"><i class="glyphicon glyphicon-move"></i></a>
-            <a href="javascript:void(0);removeFile(${item.id});"><i class="glyphicon glyphicon-remove"></i></a>
-            <a href="javascript:void(0);shareFile(${item.id});"><i class="glyphicon glyphicon-share"></i></a>
-          </td>
           <td class="text-left">
 		    <i class="icon-16 icon-16-${item.type}"></i>
 			<c:if test="${item.type == 'dir'}">
@@ -58,6 +49,15 @@
 	      </td>
           <td class="text-left"><tags:fileSize fileSize="${item.fileSize}"/></td>
           <td class="text-left"><fmt:formatDate value="${item.lastModifiedTime}" type="both"/></td>
+          <td class="text-center">
+			<c:if test="${item.type != 'dir'}">
+            <a href="disk-info-download.do?id=${item.id}"><i class=" glyphicon glyphicon-download-alt"></i></a>
+			</c:if>
+			<a href="javascript:void(0);renameFile(${item.id}, '${item.name}');"><i class="glyphicon glyphicon-pencil"></i></a>
+			<a href="javascript:void(0);moveFile(${item.id})"><i class="glyphicon glyphicon-move"></i></a>
+            <a href="javascript:void(0);removeFile(${item.id});"><i class="glyphicon glyphicon-remove"></i></a>
+            <a href="javascript:void(0);shareFile(${item.id});"><i class="glyphicon glyphicon-share"></i></a>
+          </td>
         </tr>
 		</c:forEach>
       </tbody>

@@ -66,7 +66,7 @@ $(function() {
 			  <option value="1" ${param.filter_EQI_status == 1 ? 'selected' : ''}><spring:message code='org.org.list.search.enabled.true' text='启用'/></option>
 			  <option value="0" ${param.filter_EQI_status == 0 ? 'selected' : ''}><spring:message code='org.org.list.search.enabled.false' text='禁用'/></option>
 		    </select>
-			<button class="btn btn-small" onclick="document.orgForm.submit()">查询</button>
+			<button class="btn btn-small btn-default" onclick="document.orgForm.submit()">查询</button>
 		  </form>
 
 		</div>
@@ -75,7 +75,7 @@ $(function() {
 	  <article class="m-blank">
 	    <div class="pull-left">
 		  <region:region-permission permission="org:create">
-		  <button class="btn btn-small a-insert" onclick="location.href='org-position-type-input.do'">新建</button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='org-position-type-input.do'">新建</button>
 		  </region:region-permission>
 		  <region:region-permission permission="org:delete">
 		  <button class="btn btn-small a-remove" onclick="table.removeAll()">删除</button>

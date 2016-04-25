@@ -66,7 +66,7 @@ $(function() {
 			  <option value="1" ${param.filter_EQI_status == 1 ? 'selected' : ''}><spring:message code='user.user.list.search.enabled.true' text='启用'/></option>
 			  <option value="0" ${param.filter_EQI_status == 0 ? 'selected' : ''}><spring:message code='user.user.list.search.enabled.false' text='禁用'/></option>
 		    </select>
-			<button class="btn btn-small" onclick="document.userForm.submit()">查询</button>
+			<button class="btn btn-small btn-default" onclick="document.userForm.submit()">查询</button>
 		  </form>
 
 		</div>

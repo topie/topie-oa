@@ -59,7 +59,7 @@ $(function() {
 		  <form name="userRepoForm" method="post" action="user-repo-list.do" class="form-inline">
 		    <label for="userRepo_name"><spring:message code="auth.userRepo.list.search.name" text="名称"/>:</label>
 		    <input type="text" id="userRepo_name" name="filter_LIKES_name" value="${param.filter_LIKES_name}">
-			<button class="btn btn-small" onclick="document.userRepoForm.submit()">查询</button>
+			<button class="btn btn-small btn-default" onclick="document.userRepoForm.submit()">查询</button>
 		  </form>
 
 		</div>

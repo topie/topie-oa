@@ -59,7 +59,7 @@ $(function() {
 		  <form name="roleDefForm" method="post" action="role-def-list.do" class="form-inline">
 		    <label for="roleDef_name"><spring:message code='auth.roleDef.list.search.name' text='名称'/>:</label>
 		    <input type="text" id="roleDef_name" name="filter_LIKES_name" value="${param.filter_LIKES_name}">
-			<button class="btn btn-small" onclick="document.permForm.submit()">查询</button>
+			<button class="btn btn-small btn-default" onclick="document.permForm.submit()">查询</button>
 		  </form>
 
 		</div>

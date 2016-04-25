@@ -68,7 +68,7 @@ $(function() {
 	  <article style="margin-bottom:10px;">
 	    <div class="pull-left">
 		  <region:region-permission permission="bpmMailTemplate:create">
-		  <button class="btn btn-small a-insert" onclick="location.href='bpm-mail-template-input.do'"><spring:message code="core.list.create" text="新建"/></button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='bpm-mail-template-input.do'"><spring:message code="core.list.create" text="新建"/></button>
 		  </region:region-permission>
 		  <region:region-permission permission="bpmMailTemplate:delete">
 		  <button class="btn btn-small a-remove" onclick="table.removeAll()"><spring:message code="core.list.delete" text="删除"/></button>

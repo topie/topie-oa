@@ -59,7 +59,7 @@ $(function() {
 		  <form name="msg-infoForm" method="post" action="msg-info-list.do" class="form-inline">
 		    <label for="msg-info_name"><spring:message code='msg-info.msg-info.list.search.name' text='名称'/>:</label>
 		    <input type="text" id="msg-info_name" name="filter_LIKES_name" value="${param.filter_LIKES_name}">
-			<button class="btn btn-small a-search" onclick="document.msg-infoForm.submit()">查询</button>&nbsp;
+			<button class="btn btn-small btn-default a-search" onclick="document.msg-infoForm.submit()">查询</button>&nbsp;
 		  </form>
 
 		</div>
@@ -68,7 +68,7 @@ $(function() {
 	  <article class="m-blank">
 	    <div class="pull-left">
 		  <region:region-permission permission="msg-info:create">
-		  <button class="btn btn-small a-insert" onclick="location.href='msg-info-input.do'">新建</button>
+		  <button class="btn btn-small a-insert btn-default" onclick="location.href='msg-info-input.do'">新建</button>
 		  </region:region-permission>
 		  <region:region-permission permission="msg-info:delete">
 		  <button class="btn btn-small a-remove" onclick="table.removeAll()">删除</button>
