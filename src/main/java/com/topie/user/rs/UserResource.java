@@ -106,6 +106,25 @@ public class UserResource {
 
         return list;
     }
+    
+    @GET
+    @Path("search-all-account")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Map<String, Object>> searchAllAccount() {
+        List<AccountInfo> accountInfos = accountInfoManager.find(
+                "from AccountInfo");
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+        for (AccountInfo accountInfo : accountInfos) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("id", accountInfo.getId());
+            map.put("username", accountInfo.getUsername());
+            map.put("displayName", accountInfo.getDisplayName());
+            list.add(map);
+        }
+
+        return list;
+    }
 
     // ~ ======================================================================
     @Resource
