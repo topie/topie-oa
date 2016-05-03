@@ -31,5 +31,5 @@
 	      </a>
 		</li>
 
-		<li><button class="btn btn-default btn-sm navbar-btn" onclick="insertWidget()"><i class="glyphicon glyphicon-plus"></i></button></li>
+		<li><button class="btn btn-sm navbar-btn" onclick="insertWidget()"><i class="glyphicon glyphicon-plus"></i></button></li>
       </ul>
