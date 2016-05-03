@@ -31,7 +31,7 @@ $(function() {
 		}
     });
 
-	
+	/**
 	$('#msgInfo_username').inputosaurus({
 		width : '350px',
 		autoCompleteSource : function(request, response) {
@@ -53,7 +53,24 @@ $(function() {
 			// $('#widget2_reflect').val(ev.target.value);
 		}
 	});
-})
+	*/
+	initAccountUser();
+});
+
+function initAccountUser(){
+	$.ajax({
+         type: 'GET',
+         url: '${tenantPrefix}/rs/user/search-all-account',
+         dataType: 'json',
+         success: function(data){
+            $('#msgInfo_username').empty();   //清空resText里面的所有内容
+            var html = ''; 
+            for(var i=0;i<data.length;i++){
+            	$('#msgInfo_username').append('<option value="'+data[i].username+'">'+data[i].username+'</option>');
+            }
+         }
+    });
+}
     </script>
   </head>
 
@@ -80,7 +97,13 @@ $(function() {
   <div class="form-group">
     <label class="control-label col-md-1" for="msgInfo_username">收件人</label>
 	<div class="col-sm-5">
-	  <input id="msgInfo_username" type="text" name="username" value="" size="40" class="form-control original">
+	   <!--
+	 	<input id="msgInfo_username" type="text" name="username" value="" size="40" class="form-control original">
+	 	-->
+	  
+	  <select id="msgInfo_username" name="username" style="width: 350px;">
+	  </select>
+	   
     </div>
   </div>
   <div class="form-group">
@@ -97,7 +120,7 @@ $(function() {
   </div>
   <div class="form-group">
     <div class="col-md-offset-1 col-md-11">
-      <button type="submit" class="btn btn-default a-submit"><spring:message code='core.input.save' text='保存'/></button>
+      <button type="submit" class="btn btn-default a-submit"><spring:message code='core.input.save' text='发送'/></button>
 	  &nbsp;
       <button type="button" class="btn btn-link a-cancel" onclick="history.back();"><spring:message code='core.input.back' text='返回'/></button>
     </div>
