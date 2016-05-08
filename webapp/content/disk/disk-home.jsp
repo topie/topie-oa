@@ -33,7 +33,7 @@
     <table id="tablereimburserecord1" class="table table-hover table-bordered">
       <thead>
         <tr class="active">
-          <th class="col-md-1 text-left">用户</th>
+          <th class="col-md-1 text-left" style="background-color: #C8E8FC;">用户</th>
         </tr>
       </thead>
       <tbody id="tbodyFileInfo">

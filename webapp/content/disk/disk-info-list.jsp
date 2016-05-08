@@ -25,10 +25,10 @@
     <table id="tablereimburserecord1" class="table table-hover table-bordered">
       <thead>
         <tr class="active">
-          <th class="col-md-7 text-left">文件名</th>
-          <th class="col-md-2 text-left">大小</th>
-          <th class="col-md-2 text-left">修改时间</th>
-          <th class="col-md-1 text-left">操作</th>
+          <th class="col-md-7 text-left" style="background-color: #C8E8FC;">文件名</th>
+          <th class="col-md-2 text-left" style="background-color: #C8E8FC;">大小</th>
+          <th class="col-md-2 text-left" style="background-color: #C8E8FC;">修改时间</th>
+          <th class="col-md-1 text-left" style="background-color: #C8E8FC;">操作</th>
         </tr>
       </thead>
       <tbody id="tbodyFileInfo">
