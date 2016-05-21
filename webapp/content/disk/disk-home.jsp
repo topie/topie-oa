@@ -16,6 +16,7 @@
 
       <div class="container-fluid" style="padding: 0px 15px 0;" id="top">
 
+		<!-- 
         <div class="row-fluid">
 		  <div class="col-md-12">
 		    <form action="disk-home.do" class="form-inline">
@@ -25,6 +26,7 @@
 			<br>
 		  </div>
 		</div>
+		-->
 
         <div class="row">
           <div class="col-md-12">

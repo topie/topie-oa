@@ -22,17 +22,14 @@
     <table id="tablereimburserecord1" class="table table-hover table-bordered">
       <thead>
         <tr class="active">
-          <th class="col-md-1 text-left" style="background-color: #C8E8FC;"></th>
           <th class="col-md-7 text-left " style="background-color: #C8E8FC;">文件名</th>
           <th class="col-md-2 text-left" style="background-color: #C8E8FC;">分享时间</th>
+          <th class="col-md-1 text-left" style="background-color: #C8E8FC;">操作</th>
         </tr>
       </thead>
       <tbody id="tbodyFileInfo">
 	    <c:forEach items="${diskShares}" var="item">
         <tr>
-		  <td class="text-center">
-            <a href="javascript:void(0);removeFile(${item.id});"><i class="glyphicon glyphicon-remove"></i></a>
-          </td>
           <td class="text-left">
 		    <i class="icon-16 icon-16-${item.type}"></i>
 			<c:if test="${item.type == 'dir'}">
@@ -47,6 +44,9 @@
 			</c:if>
 	      </td>
           <td class="text-left"><fmt:formatDate value="${item.shareTime}" type="both"/></td>
+          <td class="text-center">
+            <a href="javascript:void(0);removeFile(${item.id});"><i class="glyphicon glyphicon-remove"></i></a>
+          </td>
         </tr>
 		</c:forEach>
       </tbody>

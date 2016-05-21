@@ -61,8 +61,11 @@ public class DiskShare implements java.io.Serializable {
 
     /** . */
     private Set<DiskAcl> diskAcls = new HashSet<DiskAcl>(0);
+    
+    private String orgId;
 
-    public DiskShare() {
+
+	public DiskShare() {
     }
 
     public DiskShare(Long id) {
@@ -72,7 +75,7 @@ public class DiskShare implements java.io.Serializable {
     public DiskShare(Long id, DiskInfo diskInfo, String shareType,
             Date shareTime, String name, String creator, String type,
             Integer dirType, Integer countView, Integer countSave,
-            Integer countDownload, Set<DiskAcl> diskAcls) {
+            Integer countDownload, Set<DiskAcl> diskAcls,String orgId) {
         this.id = id;
         this.diskInfo = diskInfo;
         this.shareType = shareType;
@@ -85,6 +88,7 @@ public class DiskShare implements java.io.Serializable {
         this.countSave = countSave;
         this.countDownload = countDownload;
         this.diskAcls = diskAcls;
+        this.orgId = orgId;
     }
 
     /** @return null. */
@@ -257,4 +261,13 @@ public class DiskShare implements java.io.Serializable {
     public void setDiskAcls(Set<DiskAcl> diskAcls) {
         this.diskAcls = diskAcls;
     }
+    
+    @Column(name = "ORG_ID")
+    public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
 }

@@ -8,6 +8,9 @@
     <title>网盘</title>
     <%@include file="_s.jsp"%>
 	<link rel="stylesheet" href="${ctx}/s/disk/sprite_list_icon.css">
+	<style type="text/css">
+	
+	</style>
   </head>
   <body>
     <div id="wrap">&nbsp;
@@ -51,12 +54,12 @@
           <td class="text-left"><fmt:formatDate value="${item.lastModifiedTime}" type="both"/></td>
           <td class="text-center">
 			<c:if test="${item.type != 'dir'}">
-            <a href="disk-info-download.do?id=${item.id}"><i class=" glyphicon glyphicon-download-alt"></i></a>
+            <a href="disk-info-download.do?id=${item.id}" title="下载"><i class=" glyphicon glyphicon-download-alt"></i></a>
 			</c:if>
-			<a href="javascript:void(0);renameFile(${item.id}, '${item.name}');"><i class="glyphicon glyphicon-pencil"></i></a>
-			<a href="javascript:void(0);moveFile(${item.id})"><i class="glyphicon glyphicon-move"></i></a>
-            <a href="javascript:void(0);removeFile(${item.id});"><i class="glyphicon glyphicon-remove"></i></a>
-            <a href="javascript:void(0);shareFile(${item.id});"><i class="glyphicon glyphicon-share"></i></a>
+			<a href="javascript:void(0);renameFile(${item.id}, '${item.name}');" title="重命名"><i class="glyphicon glyphicon-pencil"></i></a>
+			<a href="javascript:void(0);moveFile(${item.id})" title="更换目录"><i class="glyphicon glyphicon-move"></i></a>
+            <a href="javascript:void(0);removeFile(${item.id});" title="删除"><i class="glyphicon glyphicon-remove"></i></a>
+            <a href="javascript:void(0);openShareFile(${item.id});" title="共享给他人"><i class="glyphicon glyphicon-share"></i></a>
           </td>
         </tr>
 		</c:forEach>
@@ -164,10 +167,40 @@ function moveFile(id) {
 	$.fn.zTree.init($("#moveFileTree"), setting, zNodes);
 }
 
-function shareFile(id) {
-	location.href = 'disk-share-sharePublic.do?id=' + id;
+function shareFile() {
+	//shareRange=1:分享给所有人 shareRange=2:分享给本部门
+	var shareRange = $("input[name='share']:checked").val();
+	var id = $('#shareId').val();
+	location.href = 'disk-share-sharePublic.do?shareRange='+shareRange+'&id=' + id;
 }
 
+</script>
+
+<div id="shareDialog" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+	  <input id="shareId" type="hidden" name="id" value="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">文件共享</h4>
+      </div>
+      <div class="modal-body">
+		<input type="radio" name="share" value="1" checked="checked">共享给所有人
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="radio" name="share" value="2">共享给本部门
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="renameConfirmButton" type="submit" class="btn btn-primary" onclick="shareFile();">确定</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript">
+	function openShareFile(id) {
+		$('#shareId').val(id);
+		$('#shareDialog').modal("show");
+	} 
 </script>
 
           </div>

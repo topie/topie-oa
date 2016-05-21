@@ -54,7 +54,7 @@ $(function() {
     <div class="controls">
       <button id="submitButton" type="submit" class="btn">保存</button>
 	  &nbsp;
-      <button type="button" onclick="history.back();" class="btn">返回</button>
+      <button type="button" onclick="history.back();" class="btn a-cancel">返回</button>
     </div>
   </div>
 </form>

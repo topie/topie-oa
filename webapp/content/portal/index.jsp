@@ -99,7 +99,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary" onclick="$('#widgetForm').submit();">保存</button>
+        <button type="button" class="btn btn-default btn-primary" onclick="$('#widgetForm').submit();">保存</button>
       </div>
     </div>
   </div>

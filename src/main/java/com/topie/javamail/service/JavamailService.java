@@ -2,37 +2,32 @@ package com.topie.javamail.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-
-import java.util.Date;
 import java.util.Properties;
 
 import javax.annotation.Resource;
-
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Folder;
 import javax.mail.Message;
-import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.topie.javamail.persistence.domain.JavamailConfig;
 import com.topie.javamail.persistence.domain.JavamailMessage;
 import com.topie.javamail.persistence.manager.JavamailConfigManager;
 import com.topie.javamail.persistence.manager.JavamailMessageManager;
-import com.topie.javamail.support.SmtpAuthenticator;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
+import com.topie.javamail.rs.MailSenderInfo;
+import com.topie.javamail.rs.SimpleMailSender;
 
 @Service
 public class JavamailService {
@@ -41,7 +36,7 @@ public class JavamailService {
     private JavamailConfigManager javamailConfigManager;
     private JavamailMessageManager javamailMessageManager;
 
-    public Properties createSmtpProperties(JavamailConfig javamailConfig) {
+	public Properties createSmtpProperties(JavamailConfig javamailConfig) {
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol",
                 javamailConfig.getSendType());
@@ -104,6 +99,7 @@ public class JavamailService {
         logger.debug("send : {}, {}", to, subject);
 
         try {
+        	/**
             Properties props = createSmtpProperties(javamailConfig);
             String username = javamailConfig.getUsername();
             String password = javamailConfig.getPassword();
@@ -131,6 +127,20 @@ public class JavamailService {
 
             // 发送邮件
             Transport.send(message);
+            */
+        	MailSenderInfo mailInfo = new MailSenderInfo();
+			mailInfo.setMailServerHost("smtp.126.com");
+			mailInfo.setMailServerPort("25");
+			mailInfo.setValidate(true);
+			  
+			mailInfo.setUserName("wanglaozhe@126.com");
+			mailInfo.setPassword("150255");
+			mailInfo.setFromAddress("wanglaozhe@126.com");
+			mailInfo.setSubject(subject);
+			mailInfo.setToAddress(to);
+			mailInfo.setContent(content);
+			SimpleMailSender.sendHtmlMail(mailInfo);
+			logger.info("mail send info:to "+to);
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }

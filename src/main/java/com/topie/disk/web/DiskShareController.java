@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.topie.api.org.OrgConnector;
+import com.topie.api.org.OrgDTO;
 import com.topie.core.auth.CurrentUserHolder;
 
 import com.topie.disk.persistence.domain.DiskInfo;
@@ -30,8 +32,9 @@ public class DiskShareController {
     private DiskShareManager diskShareManager;
     private DiskInfoManager diskInfoManager;
     private CurrentUserHolder currentUserHolder;
+    private OrgConnector orgConnector;
 
-    /**
+	/**
      * 列表显示.
      */
     @RequestMapping("disk-share-list")
@@ -67,12 +70,13 @@ public class DiskShareController {
      * 分享.
      */
     @RequestMapping("disk-share-sharePublic")
-    public String sharePublic(@RequestParam("id") Long id) {
+    public String sharePublic(@RequestParam("id") Long id,@RequestParam("shareRange") int shareRange) {
         DiskInfo diskInfo = diskInfoManager.get(id);
         DiskShare diskShare = diskShareManager.findUniqueBy("diskInfo",
                 diskInfo);
 
         if (diskShare != null) {
+        	logger.info("this disk has aready shared!");
             return "redirect:/disk/disk-share-list.do";
         }
 
@@ -87,6 +91,15 @@ public class DiskShareController {
         diskShare.setCountView(0);
         diskShare.setCountSave(0);
         diskShare.setCountDownload(0);
+        //只共享给本部门，在表中保存分享人的部门id
+        if(shareRange == 2){
+        	List<OrgDTO> list = orgConnector.getOrgsByUserId(currentUserHolder.getUserId());
+        	if(list != null && list.size() > 0){
+        		String orgId = list.get(0).getId();
+        		diskShare.setOrgId(orgId);
+        	}
+        }
+        
         diskShareManager.save(diskShare);
 
         return "redirect:/disk/disk-share-list.do";
@@ -117,4 +130,9 @@ public class DiskShareController {
     public void setCurrentUserHolder(CurrentUserHolder currentUserHolder) {
         this.currentUserHolder = currentUserHolder;
     }
+    
+    @Resource
+    public void setOrgConnector(OrgConnector orgConnector) {
+		this.orgConnector = orgConnector;
+	}
 }

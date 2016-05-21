@@ -15,7 +15,7 @@
       <ul class="nav navbar-nav" id="navbar-menu">
 		<tags:menuNav3 systemCode="user"/>
       </ul>
-
+	  
 	  <%@include file="_header_second.jsp"%>
     </div>
 

@@ -12,11 +12,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.topie.api.org.OrgConnector;
+import com.topie.api.org.OrgDTO;
 import com.topie.api.store.StoreConnector;
 import com.topie.api.tenant.TenantHolder;
 import com.topie.api.user.UserConnector;
 import com.topie.api.user.UserDTO;
 
+import com.topie.core.auth.CurrentUserHolder;
 import com.topie.core.page.Page;
 import com.topie.core.util.IoUtils;
 import com.topie.core.util.ServletUtils;
@@ -32,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,8 +50,10 @@ public class DiskController {
     private StoreConnector storeConnector;
     private TenantHolder tenantHolder;
     private UserConnector userConnector;
+    private CurrentUserHolder currentUserHolder;
+    private OrgConnector orgConnector;
 
-    /**
+	/**
      * 首页.
      */
     @RequestMapping("disk-home")
@@ -55,18 +61,23 @@ public class DiskController {
             @RequestParam(value = "username", required = false) String username,
             Model model) {
         if (username == null) {
-            Page page = diskInfoManager.pagedQuery("from DiskInfo", 1, 10);
-            List<DiskInfo> diskInfos = (List<DiskInfo>) page.getResult();
+        	String orgId = "";
+        	List<OrgDTO> list = orgConnector.getOrgsByUserId(currentUserHolder.getUserId());
+        	if(list != null && list.size() > 0){
+        		orgId = list.get(0).getId();
+        	}
+            Page page = diskInfoManager.pagedQuery("from DiskShare where (orgId is null or orgId='') or orgId=?", 1, 10,orgId);
+            List<DiskShare> diskShares = (List<DiskShare>) page.getResult();
             List<String> userIds = new ArrayList<String>();
             List<UserDTO> userDtos = new ArrayList<UserDTO>();
 
-            for (DiskInfo diskInfo : diskInfos) {
-                String userId = diskInfo.getCreator();
+            for (DiskShare diskShare : diskShares) {
+                String userId = diskShare.getCreator();
 
                 if (userIds.contains(userId)) {
                     continue;
                 }
-
+                userIds.add(userId);
                 UserDTO userDto = userConnector.findById(userId);
                 userDtos.add(userDto);
             }
@@ -97,8 +108,21 @@ public class DiskController {
 
         String userId = u;
 
+        String orgId = "";
+    	List<OrgDTO> list = orgConnector.getOrgsByUserId(currentUserHolder.getUserId());
+    	if(list != null && list.size() > 0){
+    		orgId = list.get(0).getId();
+    	}
         List<DiskShare> diskShares = diskShareManager.findBy("creator", userId);
-        model.addAttribute("diskShares", diskShares);
+        List<DiskShare> newDiskShares = new ArrayList<DiskShare>();
+        if(diskShares != null && diskShares.size() > 0){
+        	for(DiskShare share:diskShares){//过滤掉只共享给本部门且和当前登录者不是同一部门的
+        		if(StringUtils.isEmpty(share.getOrgId()) || share.getOrgId().equals(orgId)){
+        			newDiskShares.add(share);
+        		}
+        	}
+        }
+        model.addAttribute("diskShares", newDiskShares);
         model.addAttribute("path", path);
 
         return "disk/disk-list";
@@ -167,4 +191,14 @@ public class DiskController {
     public void setUserConnector(UserConnector userConnector) {
         this.userConnector = userConnector;
     }
+    
+    @Resource
+    public void setCurrentUserHolder(CurrentUserHolder currentUserHolder) {
+		this.currentUserHolder = currentUserHolder;
+	}
+    
+    @Resource
+    public void setOrgConnector(OrgConnector orgConnector) {
+		this.orgConnector = orgConnector;
+	}
 }
