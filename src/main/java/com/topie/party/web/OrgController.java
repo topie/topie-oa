@@ -102,6 +102,7 @@ public class OrgController {
             page = partyStructTypeManager.pagedQuery(hql, page.getPageNo(),
                     page.getPageSize(), partyEntity);
             model.addAttribute("page", page);
+            model.addAttribute("partyEntity",partyEntity);
 
             // 判断这个组织下可以创建哪些下级
             // TODO: 应该判断维度
