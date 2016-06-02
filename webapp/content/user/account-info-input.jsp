@@ -86,6 +86,7 @@ function generateFileupload(maxLimitedSize) {
     });
 }
 
+
 $(function () {
 	generateFileupload(1024 * 1024);
 });
@@ -121,7 +122,7 @@ $(function () {
 	  <input id="userBase_username" type="text" name="username" value="${model.username}" size="40" class="form-control required" minlength="2" maxlength="50">
     </div>
   </div>
-
+  
   <c:if test="${empty model || empty model.accountCredentials}">
   <div class="form-group">
     <label class="control-label col-md-1" for="userBase_password"><spring:message code="user.user.input.password" text="密码"/></label>
@@ -166,6 +167,7 @@ $(function () {
     </div>
   </div>
   --%>
+  <input type="hidden" name="orgId" value="${orgId }"/>
 
   <div class="form-group">
     <div class="col-md-offset-1 col-md-11">

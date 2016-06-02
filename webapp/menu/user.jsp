@@ -22,7 +22,9 @@
       <div class="panel-body">
         <ul class="nav nav-list">
 		  <li><a href="${tenantPrefix}/user/account-info-list.do"><i class="glyphicon glyphicon-list"></i> 账号列表</a></li>
+		  <!-- 
 		  <li><a href="${tenantPrefix}/user/account-info-input.do"><i class="glyphicon glyphicon-list"></i> 添加账号</a></li>
+		   -->
         </ul>
       </div>
     </div>

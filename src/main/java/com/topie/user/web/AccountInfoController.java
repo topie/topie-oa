@@ -10,6 +10,8 @@ import com.topie.api.store.StoreConnector;
 import com.topie.api.tenant.TenantHolder;
 import com.topie.api.user.UserCache;
 import com.topie.api.user.UserDTO;
+import com.topie.auth.persistence.domain.UserStatus;
+import com.topie.auth.persistence.manager.UserStatusManager;
 
 import com.topie.core.auth.CustomPasswordEncoder;
 import com.topie.core.export.Exportor;
@@ -18,6 +20,12 @@ import com.topie.core.page.Page;
 import com.topie.core.query.PropertyFilter;
 import com.topie.core.spring.MessageHelper;
 
+import com.topie.party.persistence.domain.PartyEntity;
+import com.topie.party.persistence.domain.PartyStruct;
+import com.topie.party.persistence.domain.PartyType;
+import com.topie.party.persistence.manager.PartyEntityManager;
+import com.topie.party.persistence.manager.PartyStructManager;
+import com.topie.party.persistence.manager.PartyStructTypeManager;
 import com.topie.user.persistence.domain.AccountAvatar;
 import com.topie.user.persistence.domain.AccountCredential;
 import com.topie.user.persistence.domain.AccountInfo;
@@ -53,8 +61,12 @@ public class AccountInfoController {
     private StoreConnector storeConnector;
     private UserPublisher userPublisher;
     private TenantHolder tenantHolder;
+    private PartyEntityManager partyEntityManager;
+    private PartyStructManager partyStructManager;
+    private PartyStructTypeManager partyStructTypeManager;
+    private UserStatusManager userStatusManager;
 
-    @RequestMapping("account-info-list")
+	@RequestMapping("account-info-list")
     public String list(@ModelAttribute Page page,
             @RequestParam Map<String, Object> parameterMap, Model model) {
         String tenantId = tenantHolder.getTenantId();
@@ -68,9 +80,10 @@ public class AccountInfoController {
         return "user/account-info-list";
     }
 
-    @RequestMapping("account-info-input")
-    public String input(@RequestParam(value = "id", required = false) Long id,
-            Model model) {
+	@RequestMapping("account-info-input")
+	public String input(@RequestParam(value = "id", required = false) Long id,
+			@RequestParam(value = "orgId", required = false) Long orgId,
+			Model model) {
         AccountInfo accountInfo = null;
 
         if (id != null) {
@@ -80,16 +93,18 @@ public class AccountInfoController {
         }
 
         model.addAttribute("model", accountInfo);
+        model.addAttribute("orgId",orgId);
 
         return "user/account-info-input";
     }
 
     @RequestMapping("account-info-save")
-    public String save(
-            @ModelAttribute AccountInfo accountInfo,
-            @RequestParam(value = "password", required = false) String password,
-            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
-            RedirectAttributes redirectAttributes) throws Exception {
+	public String save(
+			@ModelAttribute AccountInfo accountInfo,
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+			@RequestParam(value = "orgId", required = false) Long orgId,
+			RedirectAttributes redirectAttributes) throws Exception {
         String tenantId = tenantHolder.getTenantId();
 
         // 先进行校验
@@ -145,7 +160,7 @@ public class AccountInfoController {
 
             accountCredentialManager.save(accountCredential);
         }
-
+        
         messageHelper.addFlashMessage(redirectAttributes, "core.success.save",
                 "保存成功");
 
@@ -159,7 +174,36 @@ public class AccountInfoController {
         if (id != null) {
             userPublisher.notifyUserUpdated(this.convertUserDto(dest));
         } else {
-            userPublisher.notifyUserCreated(this.convertUserDto(dest));
+//            userPublisher.notifyUserCreated(this.convertUserDto(dest));
+        	//PARTY_TYPE表中的数据不要改
+        	PartyType type = new PartyType(1L);
+        	PartyEntity entity = new PartyEntity();
+        	entity.setRef(dest.getId()+"");
+        	entity.setPartyType(type);
+        	entity.setName(accountInfo.getUsername());
+        	entity.setTenantId(tenantId);
+        	partyEntityManager.save(entity);
+            
+        	UserStatus status = new UserStatus();
+        	status.setPassword(password);
+        	status.setRef(dest.getId()+"");
+        	status.setUsername(accountInfo.getUsername());
+        	status.setTenantId(tenantId);
+        	status.setStatus(1);
+        	status.setUserRepoRef(1+"");
+        	userStatusManager.save(status);
+        	
+        	
+            //add data in PARTY_STRUCT
+        	PartyEntity childEntity = partyEntityManager.get(entity.getId());
+            PartyEntity parentEntity = partyEntityManager.get(orgId);
+            PartyStruct struct = new PartyStruct();
+            struct.setChildEntity(childEntity);
+            struct.setParentEntity(parentEntity);
+            //这里暂时写死（PARTY_STRUCT_TYPE表里面id为1的不要去更改）
+            struct.setPartyStructType(partyStructTypeManager.get(1L));
+            partyStructManager.save(struct);
+            return "redirect:/party/org-list.do?partyEntityId="+orgId;
         }
 
         return "redirect:/user/account-info-list.do";
@@ -324,4 +368,26 @@ public class AccountInfoController {
     public void setTenantHolder(TenantHolder tenantHolder) {
         this.tenantHolder = tenantHolder;
     }
+    
+    @Resource
+    public void setPartyEntityManager(PartyEntityManager partyEntityManager) {
+		this.partyEntityManager = partyEntityManager;
+	}
+    
+    @Resource
+    public void setPartyStructManager(PartyStructManager partyStructManager) {
+		this.partyStructManager = partyStructManager;
+	}
+    
+    @Resource
+    public void setPartyStructTypeManager(
+			PartyStructTypeManager partyStructTypeManager) {
+		this.partyStructTypeManager = partyStructTypeManager;
+	}
+    
+    @Resource
+    public void setUserStatusManager(UserStatusManager userStatusManager) {
+		this.userStatusManager = userStatusManager;
+	}
+
 }

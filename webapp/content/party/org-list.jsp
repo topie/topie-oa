@@ -27,6 +27,15 @@ var config = {
 	exportUrl: 'org-export.do'
 };
 
+
+function openUserAddPage(){
+	if('${partyEntity}' == ''){
+		alert('请先选择部门');
+		return;
+	}
+	window.location.href="${tenantPrefix}/user/account-info-input.do?orgId="+'${partyEntity.id}';
+}
+
 var table;
 
 $(function() {
@@ -52,7 +61,7 @@ $(function() {
 	<i class="glyphicon glyphicon-list"></i>
     查询
 	<div class="pull-right ctrl">
-	  <a class="btn btn-default btn-xs"><i id="orgSearchIcon" class="glyphicon glyphicon-chevron-up"></i></a>
+	  <a class="btn btn-xs"><i id="orgSearchIcon" class="glyphicon glyphicon-chevron-up"></i></a>
     </div>
   </div>
   <div class="panel-body">
@@ -68,9 +77,19 @@ $(function() {
 
       <div style="margin-bottom: 20px;">
 	    <div class="pull-left btn-group" role="group">
+	      <!-- 
 		  <c:forEach items="${childTypes}" var="item">
 		  <button class="btn btn-default a-insert" onclick="location.href='org-input.do?partyStructTypeId=${partyStructTypeId}&partyEntityId=${partyEntityId}&partyTypeId=${item.id}'">新建${item.name}</button>
 		  </c:forEach>
+		   -->
+		   <c:forEach items="${childTypes}" var="item">
+		   	<c:if test="${item.name == '人员'}">
+		   		<button class="btn btn-default a-insert" onclick="openUserAddPage();">新建成员</button>
+		   	</c:if>
+		   	<c:if test="${item.name != '人员'}">
+		   		<button class="btn btn-default a-insert" onclick="location.href='org-input.do?partyStructTypeId=${partyStructTypeId}&partyEntityId=${partyEntityId}&partyTypeId=${item.id}'">新建${item.name}</button>
+		   	</c:if>
+		   </c:forEach>
 		</div>
 
 		<div class="pull-right">
