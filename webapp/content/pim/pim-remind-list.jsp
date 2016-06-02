@@ -51,7 +51,7 @@ $(function() {
   <div class="panel-heading">
     查询
 	<div class="pull-right ctrl">
-	  <a class="btn btn-default btn-xs"><i id="pimRemindSearchIcon" class="glyphicon glyphicon-chevron-up"></i></a>
+	  <a class="btn btn-xs"><i id="pimRemindSearchIcon" class="glyphicon glyphicon-chevron-up"></i></a>
     </div>
   </div>
   <div class="panel-body">

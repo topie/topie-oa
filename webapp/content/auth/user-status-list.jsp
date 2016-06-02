@@ -52,7 +52,7 @@ $(function() {
 	<i class="glyphicon glyphicon-list"></i>
     查询
 	<div class="pull-right ctrl">
-	  <a class="btn btn-default btn-xs"><i id="user-statusSearchIcon" class="glyphicon glyphicon-chevron-up"></i></a>
+	  <a class="btn btn-xs"><i id="user-statusSearchIcon" class="glyphicon glyphicon-chevron-up"></i></a>
     </div>
   </div>
   <div class="panel-body">
@@ -68,7 +68,9 @@ $(function() {
 
       <div style="margin-bottom: 20px;">
 	    <div class="pull-left btn-group" role="group">
+	      <!-- 
 		  <button class="btn btn-default a-insert" onclick="location.href='user-status-input.do'">新建</button>
+		   -->
 		  <button class="btn btn-default a-remove" onclick="table.removeAll()">删除</button>
 		  <button class="btn btn-default a-export" onclick="table.exportExcel()">导出</button>
 		</div>
