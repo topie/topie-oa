@@ -1,6 +1,5 @@
 package com.topie.user.web;
 
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +29,8 @@ import com.topie.core.page.Page;
 import com.topie.core.query.PropertyFilter;
 import com.topie.core.spring.MessageHelper;
 import com.topie.party.persistence.domain.PartyEntity;
+
+import com.topie.party.persistence.domain.PartyStruct;
 import com.topie.party.persistence.domain.PartyType;
 import com.topie.party.persistence.manager.PartyEntityManager;
 import com.topie.party.persistence.manager.PartyStructManager;
@@ -102,7 +103,7 @@ public class AccountInfoController {
         return "user/account-info-input";
     }
 
-	@RequestMapping("account-info-save")
+    @RequestMapping("account-info-save")
 	public String save(
 			@ModelAttribute AccountInfo accountInfo,
 			@RequestParam(value = "password", required = false) String password,
@@ -202,6 +203,7 @@ public class AccountInfoController {
         	partyEntityManager.save(entity);
             */
         	
+            
         	UserStatus status = new UserStatus();
         	status.setPassword(password);
         	status.setRef(dest.getId()+"");
