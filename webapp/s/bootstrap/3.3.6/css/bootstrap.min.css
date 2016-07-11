@@ -5,7 +5,7 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
-	font-family: sans-serif;
+	font-family: Garamond, serif;
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%
 }
@@ -1344,8 +1344,8 @@ html {
 }
 
 body {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 14px;
+	font-family: Garamond, serif;
+	font-size: 13px;
 	line-height: 1.42857143;
 	color: #333;
 	background-color: #fff
@@ -2572,6 +2572,8 @@ th {
 }
 
 .table {
+	font-family: Garamond, serif;
+	font-size: 13px;
 	width: 100%;
 	max-width: 100%;
 	margin-bottom: 20px
@@ -2579,7 +2581,7 @@ th {
 
 .table>tbody>tr>td,.table>tbody>tr>th,.table>tfoot>tr>td,.table>tfoot>tr>th,.table>thead>tr>td,.table>thead>tr>th
 	{
-	padding: 8px;
+	padding: 2px;
 	line-height: 1.42857143;
 	vertical-align: top;
 	border-top: 1px solid #ddd
@@ -2605,7 +2607,7 @@ th {
 
 .table-condensed>tbody>tr>td,.table-condensed>tbody>tr>th,.table-condensed>tfoot>tr>td,.table-condensed>tfoot>tr>th,.table-condensed>thead>tr>td,.table-condensed>thead>tr>th
 	{
-	padding: 5px
+	padding: 4px
 }
 
 .table-bordered {
@@ -2797,9 +2799,9 @@ output {
 .form-control {
 	display: block;
 	width: 100%;
-	height: 34px;
-	padding: 6px 12px;
-	font-size: 14px;
+	height: 28px;
+	padding: 3px 12px;
+	font-size: 12px;
 	line-height: 1.42857143;
 	color: #555;
 	background-color: #fff;
@@ -3256,7 +3258,7 @@ select[multiple].input-lg,textarea.input-lg {
 
 .btn {
 	display: inline-block;
-	padding: 6px 12px;
+	padding: 3px 8px;
 	margin-bottom: 0;
 	font-size: 14px;
 	font-weight: 400;
@@ -3634,7 +3636,7 @@ a.btn.disabled,fieldset[disabled] a.btn {
 }
 
 .btn-group-sm>.btn,.btn-sm {
-	padding: 5px 10px;
+	padding: 3px 10px;
 	font-size: 12px;
 	line-height: 1.5;
 	border-radius: 3px;
@@ -3753,14 +3755,14 @@ tbody.collapse.in {
 
 .dropdown-menu .divider {
 	height: 1px;
-	margin: 9px 0;
+	margin: 0px 0;
 	overflow: hidden;
 	background-color: #e5e5e5
 }
 
 .dropdown-menu>li>a {
 	display: block;
-	padding: 3px 20px;
+	padding: 10px 20px;
 	clear: both;
 	font-weight: 400;
 	line-height: 1.42857143;
@@ -3771,7 +3773,7 @@ tbody.collapse.in {
 .dropdown-menu>li>a:focus,.dropdown-menu>li>a:hover {
 	color: #262626;
 	text-decoration: none;
-	background-color: #f5f5f5
+	background-color: #36A3FF;
 }
 
 .dropdown-menu>.active>a,.dropdown-menu>.active>a:focus,.dropdown-menu>.active>a:hover
@@ -4454,14 +4456,16 @@ select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.i
 }
 
 .navbar-collapse {
+	/**
 	padding-right: 15px;
 	padding-left: 15px;
+	*/
 	overflow-x: visible;
 	-webkit-overflow-scrolling: touch;
 	border-top: 1px solid transparent;
 	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
-	/**background-color: #C8E8FC;*/
+	background-color: #36A3FF;
 }
 
 .navbar-collapse.in {
@@ -4789,7 +4793,7 @@ select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.i
 	}
 	.navbar-right {
 		float: right !important;
-		margin-right: -15px
+		margin-right: 0px
 	}
 	.navbar-right ~.navbar-right {
 		margin-right: 0
@@ -4816,7 +4820,7 @@ select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.i
 }
 
 .navbar-default .navbar-nav>li>a {
-	color: #777
+	color: white;
 }
 
 .navbar-default .navbar-nav>li>a:focus,.navbar-default .navbar-nav>li>a:hover
@@ -5867,7 +5871,7 @@ a.list-group-item-danger.active,a.list-group-item-danger.active:focus,a.list-gro
 }
 
 .panel-heading {
-	padding: 10px 15px;
+	padding: 5px 15px;
 	border-bottom: 1px solid transparent;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
@@ -5883,7 +5887,7 @@ th{background-color: #F5F5F5;}
 .panel-title {
 	margin-top: 0;
 	margin-bottom: 0;
-	font-size: 16px;
+	font-size: 15px;
 	color: inherit
 }
 
@@ -6562,8 +6566,8 @@ button.close {
 	display: none;
 	max-width: 276px;
 	padding: 1px;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 14px;
+	font-family: Garamond, serif;
+	font-size: 12px;
 	font-style: normal;
 	font-weight: 400;
 	line-height: 1.42857143;
@@ -7007,32 +7011,20 @@ button.close {
 
 /**2016.04.24*/
 .btn-default,.a-submit,.a-cancel,.a-insert,.a-remove,.a-export,.btn-link{
-	background-color: #1B9AF7;
-	border-color: #1B9AF7;
-	color: #FFF;
-	border-radius: 200px; 
-	font-size: 12px;
-	height: 30px;
-	line-height: 30px;
-	padding: 0 30px; 
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-bottom: 2px;
-}
-.btn-default:visited {
-	color: #FFF;
+	color: #fff;
+	background-color: #337ab7;
+	border-color: #2e6da4;
 }
 .btn-default:hover, 
 .btn-default:focus{
-    background-color: #4cb0f9;
-    border-color: #4cb0f9;
-    color: #FFF;
-     
+    color: #fff;
+	background-color: #286090;
+	border-color: #204d74
 }
 .btn-default:active, .btn-default.active, .btn-default.is-active{
-    background-color: #2798eb;
-    border-color: #2798eb;
-    color: #0880d7; 
+    color: #fff;
+	background-color: #286090;
+	border-color: #122b40
 }
 
 @

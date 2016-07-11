@@ -9,10 +9,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.topie.party.persistence.domain.PartyEntity;
 
 /**
  * AccountInfo 账号信息.
@@ -81,8 +85,47 @@ public class AccountInfo implements java.io.Serializable {
 
     /** . */
     private Set<AccountAvatar> accountAvatars = new HashSet<AccountAvatar>(0);
+    
+    //添加字段,原先成员信息存放在PERSON_INFO表里面，这个表也不用了
+    /** 手机. */
+    private String cellphone;
 
-    public AccountInfo() {
+    /** 座机. */
+    private String telephone;
+
+    /** 邮箱. */
+    private String email;
+
+    /** 省. */
+//    private String province;
+
+    /** 市. */
+//    private String city;
+    /**地址*/
+    private String address;
+
+    /** 工号. */
+    private String employeeNo;
+
+    /** 部门. */
+    private PartyEntity partyEntity;
+
+	/** 性别. */
+    private String gender;
+
+    /** 生日. */
+    private Date birthday;
+
+    /** 证件类型. */
+    private String idCardType;
+
+    /** 证件编号. */
+    private String idCardValue;
+
+    /**上级*/
+    private AccountInfo parentAccount;
+
+	public AccountInfo() {
     }
 
     public AccountInfo(Long id) {
@@ -386,4 +429,106 @@ public class AccountInfo implements java.io.Serializable {
     public void setAccountAvatars(Set<AccountAvatar> accountAvatars) {
         this.accountAvatars = accountAvatars;
     }
+    
+    
+    @Column(name = "CELLPHONE", length = 26)
+    public String getCellphone() {
+		return cellphone;
+	}
+
+	public void setCellphone(String cellphone) {
+		this.cellphone = cellphone;
+	}
+
+	@Column(name = "TELEPHONE", length = 26)
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	@Column(name = "EMAIL", length = 100)
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	@Column(name = "ADDRESS", length = 200)
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	@Column(name = "EMPLOYEE_NO", length = 50)
+	public String getEmployeeNo() {
+		return employeeNo;
+	}
+
+	public void setEmployeeNo(String employeeNo) {
+		this.employeeNo = employeeNo;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORG_ID")
+	public PartyEntity getPartyEntity() {
+		return partyEntity;
+	}
+
+	public void setPartyEntity(PartyEntity partyEntity) {
+		this.partyEntity = partyEntity;
+	}
+	
+	@Column(name = "GENDER", length = 10)
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	@Column(name = "BIRTHDAY", length = 26)
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	@Column(name = "ID_CARD_TYPE", length = 26)
+	public String getIdCardType() {
+		return idCardType;
+	}
+
+	public void setIdCardType(String idCardType) {
+		this.idCardType = idCardType;
+	}
+
+	@Column(name = "ID_CARD_VALUE", length = 100)
+	public String getIdCardValue() {
+		return idCardValue;
+	}
+
+	public void setIdCardValue(String idCardValue) {
+		this.idCardValue = idCardValue;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PARENT_ACCOUNT_ID")
+	public AccountInfo getParentAccount() {
+		return parentAccount;
+	}
+
+	public void setParentAccount(AccountInfo parentAccount) {
+		this.parentAccount = parentAccount;
+	}
 }

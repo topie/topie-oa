@@ -54,8 +54,8 @@
 		<property name="databaseType" value="${application.database.type}"/>
 
 		<!-- 生成流程图的字体 -->
-        <property name="activityFontName" value="宋体"/>
-        <property name="labelFontName" value="宋体"/>
+        <property name="activityFontName" value="微软雅黑"/>
+        <property name="labelFontName" value="微软雅黑"/>
 
 		<!-- 组织机构适配 -->
         <property name="customSessionFactories">

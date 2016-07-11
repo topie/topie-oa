@@ -21,7 +21,7 @@
     <div id="collapse-body-attendance" class="panel-collapse collapse ${currentMenu == 'attendance' ? 'in' : ''}" role="tabpanel" aria-labelledby="collapse-header-attendance">
       <div class="panel-body">
         <ul class="nav nav-list">
-		  <li><a href="${tenantPrefix}/attendance/attendance-info-list.do"><i class="glyphicon glyphicon-list"></i> 考勤管理</a></li>
+		  <li><a href="${tenantPrefix}/user/account-attendance-list.do"><i class="glyphicon glyphicon-list"></i> 考勤管理</a></li>
         </ul>
       </div>
     </div>

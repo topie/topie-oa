@@ -9,11 +9,18 @@
     <%@include file="/common/meta.jsp"%>
     <title>portal</title>
 	<%@include file="/common/s3.jsp"%>
-
     <script src='${tenantPrefix}/widgets/portal/dashboard.js' type='text/javascript'></script>
     <link rel='stylesheet' href='${tenantPrefix}/widgets/portal/dashboard.css' type='text/css' media='screen' />
     <script type="text/javascript" src="${tenantPrefix}/widgets/portal/portal.js"></script>
-
+    <style type="text/css">
+    	body {
+	font-family: Garamond, serif;
+	font-size: 13px;
+	line-height: 1.42857143;
+	color: #333;
+	background-color: #fff
+}
+    </style>
   </head>
 
   <body>

@@ -44,6 +44,24 @@ $(function() {
     table.configPageInfo('.m-page-info');
     table.configPageSize('.m-page-size');
 });
+
+function delAccount(id,orgId){
+	if(confirm("确定删除该成员吗?")){
+		$.ajax({
+             type: "GET",
+             url: "${ctx}/user/account-info-remove.do?selectedItem="+id+"&orgId="+orgId,
+             dataType: "json",
+             success: function(d){
+             	alert("删除成功");
+             	window.location.href="${tenantPrefix}/party/org-list.do?partyEntityId="+orgId;
+             },
+             error:function(data){
+			 	alert("出错了！！:"+data.msg);
+			 }
+         });
+	}
+	return false;
+}
     </script>
   </head>
 
@@ -86,7 +104,7 @@ $(function() {
 		   	<c:if test="${item.name == '人员'}">
 		   		<button class="btn btn-default a-insert" onclick="openUserAddPage();">新建成员</button>
 		   	</c:if>
-		   	<c:if test="${item.name != '人员'}">
+		   	<c:if test="${item.name == '部门'}">
 		   		<button class="btn btn-default a-insert" onclick="location.href='org-input.do?partyStructTypeId=${partyStructTypeId}&partyEntityId=${partyEntityId}&partyTypeId=${item.id}'">新建${item.name}</button>
 		   	</c:if>
 		   </c:forEach>
@@ -116,11 +134,15 @@ $(function() {
   <table id="orgGrid" class="table table-hover">
     <thead>
       <tr>
-        <th width="10" class="table-check"><input type="checkbox" name="checkAll" onchange="toggleSelectedItems(this.checked)"></th>
-        <th class="sorting" name="id"><spring:message code="org.org.list.id" text="编号"/></th>
-        <th class="sorting" name="name">名称</th>
+        <th width="10" class="table-check"><input type="checkbox" name="checkAll" onchange="toggleSelectedItems(this.checked)"/></th>
+        <th class="sorting" name="username">账号</th>
+        <th class="sorting" name="displayName">姓名</th>
+        <th class="sorting" name="cellphone">电话</th>
+        <th class="sorting" name="cellphone">地址</th>
+        <!-- 
         <th class="sorting" name="partyType">类型</th>
         <th class="sorting" name="admin">管理</th>
+         -->
         <th>操作</th>
       </tr>
     </thead>
@@ -128,13 +150,17 @@ $(function() {
     <tbody>
       <c:forEach items="${page.result}" var="item">
       <tr>
-        <td><input type="checkbox" class="selectedItem" name="selectedItem" value="${item.childEntity.id}"></td>
-        <td>${item.childEntity.id}</td>
-        <td>${item.childEntity.name}</td>
-        <td>${item.childEntity.partyType.name}</td>
-        <td>${item.admin == 1}</td>
+        <td><input type="checkbox" class="selectedItem" name="selectedItem" value="${item.id}"></td>
+        <td>${item.username}</td>
+        <td>${item.displayName}</td>
+        <td>${item.cellphone}</td>
+        <td>${item.address}</td>
         <td>
-		  <a href="org-remove.do?selectedItem=${item.id}&partyStructTypeId=${partyStructTypeId}&partyEntityId=${partyEntityId}" class="a-remove">删除</a>
+          <!-- 
+          <a href="org-remove.do?selectedItem=${item.id}&partyStructTypeId=${partyStructTypeId}&partyEntityId=${partyEntityId}" class="">删除</a>
+		   -->
+		  <a href="javascript:void(0)" class="" onclick="delAccount(${item.id},${item.partyEntity.id});">删除</a>
+		  <a href="${ctx}/user/account-info-input.do?id=${item.id}&orgId=${item.partyEntity.id}" class="">编辑</a>
 		</td>
       </tr>
       </c:forEach>

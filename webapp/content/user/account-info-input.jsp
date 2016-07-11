@@ -9,12 +9,15 @@
     <%@include file="/common/meta.jsp"%>
     <title><spring:message code="user.user.input.title" text="编辑用户"/></title>
     <%@include file="/common/s3.jsp"%>
+    <style type="text/css">
+    	
+    </style>
     <script type="text/javascript">
 $(function() {
     $("#userBaseForm").validate({
         submitHandler: function(form) {
-			bootbox.animate(false);
-			var box = bootbox.dialog('<div class="progress progress-striped active" style="margin:0px;"><div class="bar" style="width: 100%;"></div></div>');
+			//bootbox.animate(false);
+			//var box = bootbox.dialog('<div class="progress progress-striped active" style="margin:0px;"><div class="bar" style="width: 100%;"></div></div>');
             form.submit();
         },
         errorClass: 'validate-error',
@@ -45,6 +48,9 @@ $(function() {
 	<script src="${ctx}/s/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
 	<script src="${ctx}/s/jquery-file-upload/js/jquery.iframe-transport.js"></script>
 	<script src="${ctx}/s/jquery-file-upload/js/jquery.fileupload.js"></script>
+	
+	<link type="text/css" rel="stylesheet" href="../widgets/userpicker3/userpicker.css">
+    <script type="text/javascript" src="../widgets/userpicker3/userpicker.js"></script>
 
     <script type="text/javascript">
 function generateFileupload(maxLimitedSize) {
@@ -89,6 +95,11 @@ function generateFileupload(maxLimitedSize) {
 
 $(function () {
 	generateFileupload(1024 * 1024);
+	
+	createUserPicker({
+		modalId: 'userPicker',
+		url: '${tenantPrefix}/rs/user/search'
+	});
 });
     </script>
   </head>
@@ -117,9 +128,14 @@ $(function () {
   </c:if>
 
   <div class="form-group">
-    <label class="control-label col-md-1" for="userBase_username"><spring:message code="user.user.input.username" text="账号"/></label>
+    <label class="control-label col-md-1" for="userBase_username"><spring:message code="user.user.input.username" text="登录账号"/></label>
 	<div class="col-sm-5">
-	  <input id="userBase_username" type="text" name="username" value="${model.username}" size="40" class="form-control required" minlength="2" maxlength="50">
+	  <c:if test="${not empty model.username}">
+	  	<input id="userBase_username" type="text" name="username" value="${model.username}" size="40" class="form-control required" minlength="2" maxlength="50" readonly="readonly">
+	  </c:if>
+	  <c:if test="${empty model.username}">
+	  	<input id="userBase_username" type="text" name="username" value="${model.username}" size="40" class="form-control required" minlength="2" maxlength="50">
+	  </c:if>
     </div>
   </div>
   
@@ -131,7 +147,7 @@ $(function () {
     </div>
   </div>
   <div class="form-group">
-    <label class="control-label col-md-1" for="userBase_confirmPassword"><spring:message code="user.user.input.confirmpassword" text="验证密码"/></label>
+    <label class="control-label col-md-1" for="userBase_confirmPassword"><spring:message code="user.user.input.confirmpassword" text="确认密码"/></label>
 	<div class="col-sm-5">
 	  <input id="userBase_confirmPassword" type="password" name="confirmPassword" size="40" class="form-control required" maxlength="10" equalTo="#userBase_password">
     </div>
@@ -139,24 +155,73 @@ $(function () {
   </c:if>
 
   <div class="form-group">
-    <label class="control-label col-md-1" for="userBase_status"><spring:message code="user.user.input.enabled" text="启用"/></label>
-	<div class="col-sm-5">
-	  <input id="userBase_status" type="checkbox" name="status" value="active" ${model.status == 'active' ? 'checked' : ''} >
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="control-label col-md-1" for="userBase_displayName">显示名</label>
+    <label class="control-label col-md-1" for="userBase_displayName">姓名</label>
 	<div class="col-sm-5">
 	  <input id="userBase_displayName" type="text" name="displayName" value="${model.displayName}" size="40" class="form-control" minlength="2" maxlength="50">
     </div>
   </div>
 
   <div class="form-group">
-    <label class="control-label col-md-1" for="userBase_type">类型</label>
+    <label class="control-label col-md-1" for="userBase_type">职务</label>
 	<div class="col-sm-5">
 	  <input id="userBase_type" type="text" name="type" value="${model.type}" size="40" class="form-control" minlength="2" maxlength="50">
     </div>
+  </div>
+  
+  <div class="form-group">
+    <label class="control-label col-md-1" for="user_Parent_Account">上级</label>
+    <div class="input-group userPicker col-sm-5">
+		<input id="_task_name_key" type="hidden" name="userId" class="input-medium" value="${model.parentAccount.id}">
+		<input type="text" class="form-control" name="" placeholder="" value="${model.parentAccount.displayName}">
+		<div class="input-group-addon"><i class="glyphicon glyphicon-user"></i></div>
+  	</div>
+  </div>
+  
+  <div class="form-group">
+    <label class="control-label col-md-1" for="userBase_cellphone">移动电话</label>
+	<div class="col-sm-5">
+	  <input id="userBase_cellphone" type="text" name="cellphone" value="${model.cellphone}" size="40" class="form-control" minlength="2" maxlength="50">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-1" for="userBase_telephone">固定电话</label>
+	<div class="col-sm-5">
+	  <input id="userBase_telephone" type="text" name="telephone" value="${model.telephone}" size="40" class="form-control" minlength="2" maxlength="50">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-1" for="userBase_email">邮箱</label>
+	<div class="col-sm-5">
+	  <input id="userBase_email" type="text" name="email" value="${model.email}" size="40" class="form-control" minlength="2" maxlength="50">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-1" for="userBase_address">地址</label>
+	<div class="col-sm-5">
+	  <input id="userBase_address" type="text" name="address" value="${model.address}" size="40" class="form-control" minlength="2" maxlength="50">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-1" for="userBase_birthday">出生年月</label>
+	<div class="input-group datepicker date">
+		<input class="form-control" type="text" style="background-color:white;cursor:default;width: 420px;" value="${model.birthday}" name="birthday">
+		<span class="input-group-addon">
+	</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-md-1" for="userBase_gender">性别</label>
+	<div class="xf-handler">
+		<select class="required" style="margin-bottom:0px;width: 420px;" required="true" name="gender">
+			<c:if test="${model.gender=='male'||model.gender==null||model.gender==''}">
+				<option selected="selected" value="male">男</option>
+				<option value="female">女</option>
+			</c:if>
+			<c:if test="${model.gender=='female'}">
+				<option value="male">男</option>
+				<option selected="selected" value="female">女</option>
+			</c:if>
+		</select>
+	</div>
   </div>
 
   <%--
@@ -171,8 +236,8 @@ $(function () {
 
   <div class="form-group">
     <div class="col-md-offset-1 col-md-11">
-      <button id="submitButton" class="btn btn-default a-submit"><spring:message code='core.input.save' text='保存'/></button>
-      <button type="button" onclick="history.back();" class="btn btn-link a-cancel"><spring:message code='core.input.back' text='返回'/></button>
+      <button id="submitButton" class="btn btn-default a-submit"><spring:message code='core.input.save' text='保存修改'/></button>
+      <button type="button" onclick="history.back();" class="btn btn-default a-cancel"><spring:message code='core.input.back' text='返回'/></button>
     </div>
   </div>
 </form>

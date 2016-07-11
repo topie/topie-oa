@@ -8,6 +8,7 @@
     <title>网盘</title>
     <%@include file="_s.jsp"%>
 	<link rel="stylesheet" href="${ctx}/s/disk/sprite_list_icon.css">
+	<link rel="stylesheet" href="${ctx}/s/bootstrap/3.3.6/css/bootstrap.min.css">
   </head>
   <body>
     <div id="wrap">&nbsp;

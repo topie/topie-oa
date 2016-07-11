@@ -97,7 +97,7 @@ public class OrgController {
 
         if (partyEntity != null) {
             // 返回所有下级，包含组织，岗位，人员
-            String hql = "from PartyStruct where parentEntity=?";
+            String hql = "from AccountInfo where partyEntity=?";
             // 如果没有选中partyEntityId，就啥也不显示
             page = partyStructTypeManager.pagedQuery(hql, page.getPageNo(),
                     page.getPageSize(), partyEntity);

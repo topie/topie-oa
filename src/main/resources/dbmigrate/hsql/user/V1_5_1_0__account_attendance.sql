@@ -1,0 +1,22 @@
+
+
+-------------------------------------------------------------------------------
+--  attendance info
+-------------------------------------------------------------------------------
+CREATE TABLE ACCOUNT_ATTENDANCE(
+        ID BIGINT NOT NULL,
+	IS_DAYS tinyint(4),
+	DATA_STR VARCHAR(50),
+	WEEK_STR VARCHAR(20),
+	SHOULD_ATTENDANCE FLOAT,
+	REAL_ATTENDANCE FLOAT,
+	WORK_START_TIME VARCHAR(20),
+	WORK_END_TIME VARCHAR(20),
+	OFF_HOUR VARCHAR(20),
+	VACATION tinyint(4),
+	ACCOUNT_ID BIGINT,
+	TENANT_ID VARCHAR(64),
+        CONSTRAINT PK_ACCOUNT_ATTENDANCE PRIMARY KEY(ID),
+        CONSTRAINT FK_ATTENDANCE_ACCOUNT FOREIGN KEY(ACCOUNT_ID) REFERENCES ACCOUNT_INFO(ID)
+);
+

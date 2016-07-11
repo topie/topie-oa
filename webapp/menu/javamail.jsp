@@ -21,8 +21,8 @@
     </div>
     <div id="collapse-body-javamail" class="panel-collapse collapse ${currentMenu == 'javamail' ? 'in' : ''}" role="tabpanel" aria-labelledby="collapse-header-javamail">
       <div class="panel-body full-height">
-		<button onclick="location.href='create.do'" class="btn">新邮件</button>
-		<button onclick="location.href='config.do'" class="btn">配置</button>
+		<button onclick="location.href='create.do'" class="btn btn-default">新邮件</button>
+		<button onclick="location.href='config.do'" class="btn btn-default">配置</button>
 		<ul id="treeMenu" class="ztree"></ul>
       </div>
     </div>

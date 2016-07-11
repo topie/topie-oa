@@ -12,6 +12,7 @@
 
     <link type="text/css" rel="stylesheet" href="${tenantPrefix}/widgets/userpicker3/userpicker.css">
     <script type="text/javascript" src="${tenantPrefix}/widgets/userpicker3/userpicker.js"></script>
+    
 	<script type="text/javascript">
 $(function() {
 	createUserPicker({
@@ -73,6 +74,7 @@ function refreshTaskDefinitions(processDefinitionId) {
     <label class="control-label col-md-1">开始时间</label>
 	<div class="col-sm-5">
 	  <div class="input-group datepicker date">
+	  
 	    <input id="workReportInfo_reportDate" type="text" name="startTime" value="<fmt:formatDate value='${model.startTime}' pattern='yyyy-MM-dd'/>" readonly style="background-color:white;cursor:default;" class="form-control">
 	    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 	  </div>

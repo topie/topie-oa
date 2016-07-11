@@ -5,7 +5,7 @@
     <input type="file" name="file" class="fileupload" data-no-uniform="true" data-url="disk-info-upload.do" data-form-data='{"path":"${path}"}'>
   </div>
 
-  <button id="createDirButton" class="btn btn-default" data-toggle="modal" data-target="#createDirDialog">新建文件夹</button>
+  <button id="createDirButton" class="btn btn-primary" data-toggle="modal" data-target="#createDirDialog">新建文件夹</button>
 
   <div class="btn-group pull-right" role="group" aria-label="" data-toggle="buttons">
     <label class="btn btn-default glyphicon glyphicon-th-list ${listType == 'list' ? 'active' : ''}" onclick="location.href='disk-info-list.do?path=${path}'">

@@ -110,7 +110,7 @@ $(function() {
         <th class="sorting" name="createTime">类型</th>
         <th class="sorting" name="status"><spring:message code="user.user.list.status" text="状态"/></th>
         <th class="sorting" name="createTime">创建时间</th>
-        <th width="120">&nbsp;</th>
+        <th width="120">操作</th>
       </tr>
     </thead>
 
@@ -133,8 +133,10 @@ $(function() {
 		</td>
         <td><fmt:formatDate value="${item.createTime}" type="both"/></td>
         <td>
-          <a href="account-info-input.do?id=${item.id}" class="a-update"><spring:message code="core.list.edit" text="编辑"/></a>
+          <a href="account-info-input.do?id=${item.id}" class="a-update"><spring:message code="core.list.edit" text="详情"/></a>
+          <!-- 
           <a href="person-info-account-input.do?code=${item.id}">详细信息</a>
+           -->
         </td>
       </tr>
       </c:forEach>

@@ -1,4 +1,4 @@
-<%@page contentType="text/html;charset=UTF-8"%>
+<%@page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8"%>
 <%@include file="/taglibs.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +8,7 @@
     <title>网盘</title>
     <%@include file="_s.jsp"%>
 	<link rel="stylesheet" href="${ctx}/s/disk/sprite_list_icon.css">
+	<link rel="stylesheet" href="${ctx}/s/bootstrap/3.3.6/css/bootstrap.min.css">
 	<style type="text/css">
 	
 	</style>

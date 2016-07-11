@@ -82,6 +82,10 @@
 #accordion .panel-body {
 	padding:0px;
 }
+
+.newbg{
+  background:#639;
+}
     </style>
     <script type="text/javascript">
 $(function() {

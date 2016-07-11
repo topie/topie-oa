@@ -1,10 +1,21 @@
 package com.topie.user.web;
 
+import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.topie.api.store.StoreConnector;
 import com.topie.api.tenant.TenantHolder;
@@ -12,39 +23,30 @@ import com.topie.api.user.UserCache;
 import com.topie.api.user.UserDTO;
 import com.topie.auth.persistence.domain.UserStatus;
 import com.topie.auth.persistence.manager.UserStatusManager;
-
 import com.topie.core.auth.CustomPasswordEncoder;
 import com.topie.core.export.Exportor;
 import com.topie.core.mapper.BeanMapper;
 import com.topie.core.page.Page;
 import com.topie.core.query.PropertyFilter;
 import com.topie.core.spring.MessageHelper;
-
 import com.topie.party.persistence.domain.PartyEntity;
-import com.topie.party.persistence.domain.PartyStruct;
 import com.topie.party.persistence.domain.PartyType;
 import com.topie.party.persistence.manager.PartyEntityManager;
 import com.topie.party.persistence.manager.PartyStructManager;
 import com.topie.party.persistence.manager.PartyStructTypeManager;
+import com.topie.user.persistence.domain.AccountAttendance;
 import com.topie.user.persistence.domain.AccountAvatar;
 import com.topie.user.persistence.domain.AccountCredential;
+import com.topie.user.persistence.domain.AccountDevice;
 import com.topie.user.persistence.domain.AccountInfo;
 import com.topie.user.persistence.domain.PersonInfo;
+import com.topie.user.persistence.manager.AccountAttendanceManager;
 import com.topie.user.persistence.manager.AccountAvatarManager;
 import com.topie.user.persistence.manager.AccountCredentialManager;
+import com.topie.user.persistence.manager.AccountDeviceManager;
 import com.topie.user.persistence.manager.AccountInfoManager;
 import com.topie.user.persistence.manager.PersonInfoManager;
 import com.topie.user.publish.UserPublisher;
-
-import org.springframework.stereotype.Controller;
-
-import org.springframework.ui.Model;
-
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("user")
@@ -65,6 +67,8 @@ public class AccountInfoController {
     private PartyStructManager partyStructManager;
     private PartyStructTypeManager partyStructTypeManager;
     private UserStatusManager userStatusManager;
+    private AccountAttendanceManager accountAttendanceManager;
+    private AccountDeviceManager accountDeviceManager;
 
 	@RequestMapping("account-info-list")
     public String list(@ModelAttribute Page page,
@@ -98,13 +102,15 @@ public class AccountInfoController {
         return "user/account-info-input";
     }
 
-    @RequestMapping("account-info-save")
+	@RequestMapping("account-info-save")
 	public String save(
 			@ModelAttribute AccountInfo accountInfo,
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "confirmPassword", required = false) String confirmPassword,
 			@RequestParam(value = "orgId", required = false) Long orgId,
-			RedirectAttributes redirectAttributes) throws Exception {
+			RedirectAttributes redirectAttributes,
+			@RequestParam(value = "userId", required = false) Long parentAccountId)
+			throws Exception {
         String tenantId = tenantHolder.getTenantId();
 
         // 先进行校验
@@ -124,14 +130,24 @@ public class AccountInfoController {
 
         if (id != null) {
             dest = accountInfoManager.get(id);
-            dest.setStatus("active");
             beanMapper.copy(accountInfo, dest);
         } else {
             dest = accountInfo;
             dest.setCreateTime(new Date());
             dest.setTenantId(tenantId);
+            dest.setStatus("active");
+            
+            //设置部门
+            PartyEntity partyEntity = partyEntityManager.get(orgId);
+            dest.setPartyEntity(partyEntity);
         }
-
+        
+        //上级
+        if(parentAccountId != null){
+        	AccountInfo parentAccount = accountInfoManager.get(parentAccountId);
+            dest.setParentAccount(parentAccount);
+        }
+        
         accountInfoManager.save(dest);
 
         if (dest.getCode() == null) {
@@ -176,6 +192,7 @@ public class AccountInfoController {
         } else {
 //            userPublisher.notifyUserCreated(this.convertUserDto(dest));
         	//PARTY_TYPE表中的数据不要改
+        	/**
         	PartyType type = new PartyType(1L);
         	PartyEntity entity = new PartyEntity();
         	entity.setRef(dest.getId()+"");
@@ -183,7 +200,8 @@ public class AccountInfoController {
         	entity.setName(accountInfo.getUsername());
         	entity.setTenantId(tenantId);
         	partyEntityManager.save(entity);
-            
+            */
+        	
         	UserStatus status = new UserStatus();
         	status.setPassword(password);
         	status.setRef(dest.getId()+"");
@@ -194,6 +212,7 @@ public class AccountInfoController {
         	userStatusManager.save(status);
         	
         	
+        	/**
             //add data in PARTY_STRUCT
         	PartyEntity childEntity = partyEntityManager.get(entity.getId());
             PartyEntity parentEntity = partyEntityManager.get(orgId);
@@ -203,45 +222,116 @@ public class AccountInfoController {
             //这里暂时写死（PARTY_STRUCT_TYPE表里面id为1的不要去更改）
             struct.setPartyStructType(partyStructTypeManager.get(1L));
             partyStructManager.save(struct);
+            */
             return "redirect:/party/org-list.do?partyEntityId="+orgId;
         }
-
-        return "redirect:/user/account-info-list.do";
-    }
-
-    @RequestMapping("account-info-remove")
-    public String remove(@RequestParam("selectedItem") List<Long> selectedItem,
-            RedirectAttributes redirectAttributes) {
-        String tenantId = tenantHolder.getTenantId();
-        List<AccountInfo> accountInfos = accountInfoManager
-                .findByIds(selectedItem);
-
-        for (AccountInfo accountInfo : accountInfos) {
-            for (AccountCredential accountCredential : accountInfo
-                    .getAccountCredentials()) {
-                accountCredentialManager.remove(accountCredential);
-            }
-
-            for (AccountAvatar accountAvatar : accountInfo.getAccountAvatars()) {
-                accountAvatarManager.remove(accountAvatar);
-            }
-
-            accountInfoManager.remove(accountInfo);
-
-            UserDTO userDto = new UserDTO();
-            userDto.setId(Long.toString(accountInfo.getId()));
-            userDto.setUsername(accountInfo.getUsername());
-            userDto.setRef(accountInfo.getCode());
-            userDto.setUserRepoRef(tenantId);
-            userCache.removeUser(userDto);
-            userPublisher.notifyUserRemoved(this.convertUserDto(accountInfo));
+        if(orgId != null){
+        	return "redirect:/party/org-list.do?partyEntityId="+orgId;
         }
-
-        messageHelper.addFlashMessage(redirectAttributes,
-                "core.success.delete", "删除成功");
-
         return "redirect:/user/account-info-list.do";
     }
+
+	@RequestMapping("self_account-info-save")
+	public @ResponseBody Map<String,Object> save(
+			HttpServletResponse response,
+			Long id,
+			String username,
+			String displayName,
+			String type,
+			String cellphone,
+			String telephone,
+			String email,
+			String address,
+			Date birthday,
+			String gender,
+			@RequestParam(value = "userId", required = false) Long parentAccountId) {
+    	response.setContentType("text/html;charset=UTF-8");
+    	Map<String,Object> map = new HashMap<String,Object>();
+		try {
+	        if (id != null) {
+	            AccountInfo dest = accountInfoManager.get(id);
+	            dest.setDisplayName(displayName);
+	            dest.setType(type);
+	            dest.setCellphone(cellphone);
+	            dest.setTelephone(telephone);
+	            dest.setEmail(email);
+	            dest.setAddress(address);
+	            dest.setBirthday(birthday);
+	            dest.setGender(gender);
+	          //上级
+		        if(parentAccountId != null){
+		        	AccountInfo parentAccount = accountInfoManager.get(parentAccountId);
+		            dest.setParentAccount(parentAccount);
+		        }
+		        accountInfoManager.save(dest);
+	        }
+	        
+	        map.put("msg","success");
+	        return map;
+		} catch (Exception e) {
+			map.put("msg",e.getMessage());
+			return map;
+		}
+    }
+	
+	@RequestMapping("account-info-remove.do")
+	public @ResponseBody Map<String,Object> remove(
+			HttpServletResponse response,
+			@RequestParam("selectedItem") List<Long> selectedItem,
+			@RequestParam(value = "orgId", required = false) Long orgId) {
+    	response.setContentType("text/html;charset=UTF-8");
+    	Map<String,Object> map = new HashMap<String,Object>();
+		try {
+	        
+			String tenantId = tenantHolder.getTenantId();
+	        List<AccountInfo> accountInfos = accountInfoManager
+	                .findByIds(selectedItem);
+
+	        for (AccountInfo accountInfo : accountInfos) {
+	        	//删除成员的密码
+	            for (AccountCredential accountCredential : accountInfo
+	                    .getAccountCredentials()) {
+	                accountCredentialManager.remove(accountCredential);
+	            }
+
+	            //删除成员的头像
+	            for (AccountAvatar accountAvatar : accountInfo.getAccountAvatars()) {
+	                accountAvatarManager.remove(accountAvatar);
+	            }
+	            
+	            //删除成员的设备
+	            for(AccountDevice accountDevice:accountInfo.getAccountDevices()){
+	            	accountDeviceManager.remove(accountDevice);
+	            }
+	            
+	            //删除账号表中的数据
+	            List<UserStatus> userStatus = userStatusManager.find("from UserStatus where ref=?", accountInfo.getId()+"");
+	            userStatusManager.removeAll(userStatus);
+	            
+	            //删除考勤表中的数据
+	            List<AccountAttendance> accountAttendances = accountAttendanceManager.find("from AccountAttendance where accountInfo=?", accountInfo);
+	            accountAttendanceManager.removeAll(accountAttendances);
+	            
+	            //删除成员本身
+	            accountInfoManager.remove(accountInfo);
+
+	            UserDTO userDto = new UserDTO();
+	            userDto.setId(Long.toString(accountInfo.getId()));
+	            userDto.setUsername(accountInfo.getUsername());
+	            userDto.setRef(accountInfo.getCode());
+	            userDto.setUserRepoRef(tenantId);
+	            userCache.removeUser(userDto);
+//	            userPublisher.notifyUserRemoved(this.convertUserDto(accountInfo));
+	        }
+	        
+	        map.put("msg","success");
+	        return map;
+		} catch (Exception e) {
+			map.put("msg",e.getMessage());
+			return map;
+		}
+    }
+	
 
     @RequestMapping("account-info-active")
     public String active(@RequestParam("id") Long id,
@@ -388,6 +478,17 @@ public class AccountInfoController {
     @Resource
     public void setUserStatusManager(UserStatusManager userStatusManager) {
 		this.userStatusManager = userStatusManager;
+	}
+    
+    @Resource
+    public void setAccountAttendanceManager(
+			AccountAttendanceManager accountAttendanceManager) {
+		this.accountAttendanceManager = accountAttendanceManager;
+	}
+    
+    @Resource
+    public void setAccountDeviceManager(AccountDeviceManager accountDeviceManager) {
+		this.accountDeviceManager = accountDeviceManager;
 	}
 
 }
